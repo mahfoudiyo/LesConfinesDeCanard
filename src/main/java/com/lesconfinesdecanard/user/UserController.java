@@ -46,4 +46,10 @@ public class UserController {
         return "profil.html";
     }
 
+    @GetMapping ("/app")
+    public String GetHome (Model model, HttpSession session) {
+        model.addAttribute ("user", session.getAttribute("user"));
+        return "app.html";
+    }
+
 }
