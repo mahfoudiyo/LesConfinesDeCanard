@@ -46,10 +46,19 @@ public class UserController {
         return "profil.html";
     }
 
+<<<<<<< HEAD
     @PostMapping("/deleteUser")
     public String deleteUser (@ModelAttribute User user, HttpSession session) {
         userRepository.delete(user);
         session.removeAttribute("user");
         return "connexion.html";
     }
+=======
+    @GetMapping ("/app")
+    public String GetHome (Model model, HttpSession session) {
+        model.addAttribute ("user", session.getAttribute("user"));
+        return "app.html";
+    }
+
+>>>>>>> f78e49a17105b7503a99b7ebf1b7065fc6b8f58a
 }
