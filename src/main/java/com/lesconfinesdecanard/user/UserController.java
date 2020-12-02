@@ -29,7 +29,7 @@ public class UserController {
     public String PostRegister (@ModelAttribute User user, HttpSession session) {
         userRepository.save(user);
         session.setAttribute("user", user);
-        return "connexion.html";
+        return "app.html";
     }
 
     @PostMapping("/connexion")
@@ -46,4 +46,10 @@ public class UserController {
         return "profil.html";
     }
 
+    @PostMapping("/deleteUser")
+    public String deleteUser (@ModelAttribute User user, HttpSession session) {
+        userRepository.delete(user);
+        session.removeAttribute("user");
+        return "connexion.html";
+    }
 }

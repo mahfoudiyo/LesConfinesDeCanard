@@ -5,7 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1 th:utext="Profil de ${user.pseudo}"></h1>
+<h1 th:utext="${'Profil de ' + user.pseudo}"></h1>
+<form action="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+    <p><input type="submit" value="Supprimer le compte" /></p>
+</form>
 </body>
 </html>
 
