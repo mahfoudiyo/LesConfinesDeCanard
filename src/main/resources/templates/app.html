@@ -28,8 +28,7 @@
             <h1 th:text="${recette.getTitle}"></h1>
             <article><p th:text="${recette.getContent}">
             </p></article>
-            <!-- <p> Recette proposée par : <p th:text="${recette.user.pseudo}"></p> </p> -->
-            <button class="btn btn-outline-dark"  th:attr="onclick=|like('${recette.getId}')|">J'aime</button>
+            <button class="btn btn-outline-dark"  th:attr="onclick=|like('${recette.getId}')|">Favoris &#x1F4AF;</button>
         </div>
     </th:block>
 
