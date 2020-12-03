@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `like`
 --
 
-CREATE TABLE `like` (
+CREATE TABLE `likes` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `recipe_id` int(11) NOT NULL
@@ -74,10 +74,10 @@ INSERT INTO `user` (`id`, `pseudo`, `password`) VALUES
 --
 -- Indexes for table `like`
 --
-ALTER TABLE `like`
+ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `like_recipe_id_fk` (`recipe_id`),
-  ADD KEY `like_user_id_fk` (`user_id`);
+  ADD KEY `likes_recipe_id_fk` (`recipe_id`),
+  ADD KEY `likes_user_id_fk` (`user_id`);
 
 --
 -- Indexes for table `recipe`
@@ -99,7 +99,7 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for table `like`
 --
-ALTER TABLE `like`
+ALTER TABLE `likes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `recipe`
@@ -118,9 +118,9 @@ ALTER TABLE `user`
 --
 -- Constraints for table `like`
 --
-ALTER TABLE `like`
-  ADD CONSTRAINT `like_recipe_id_fk` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`),
-  ADD CONSTRAINT `like_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_recipe_id_fk` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`),
+  ADD CONSTRAINT `likes_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `recipe`

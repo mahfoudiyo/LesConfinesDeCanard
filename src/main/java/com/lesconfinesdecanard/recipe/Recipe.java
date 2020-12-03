@@ -1,16 +1,41 @@
 package com.lesconfinesdecanard.recipe;
+import com.lesconfinesdecanard.user.User;
+import com.lesconfinesdecanard.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Recipe {
     private String title;
     private String content;
+
+    public Recipe() {
+    }
+
     private Integer id;
+    private Integer userId;
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", id=" + id +
+                ", userId=" + userId +
+                '}';
+    }
+    @Basic
+    @Column(name = "user_id")
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     @Basic
     @Column(name = "title")
@@ -33,6 +58,7 @@ public class Recipe {
     }
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     public Integer getId() {
         return id;
@@ -56,4 +82,6 @@ public class Recipe {
     public int hashCode() {
         return Objects.hash(title, content, id);
     }
+
+
 }

@@ -16,35 +16,44 @@
             <a class="btn btn-outline-light" th:href="@{/profil}">Mon Profil</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-outline-light" href="">Ajouter</a>
+            <a class="btn btn-outline-light" th:href="@{/create_recette}">Ajouter une recette</a>
         </li>
     </ul>
 </nav>
 
 
 <div>
-    <div class="col-md-10 blogShort">
-        <h1>Nom 1</h1>
-        <article><p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
-            of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-            Lorem Ipsum.
-        </p></article>
-        <a class="btn btn-outline-light" href="">J'aime</a>
-    </div>
-    <div class="col-md-10 blogShort">
-        <h1>Nom 2</h1>
-        <article><p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
-            of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-            Lorem Ipsum.
-        </p></article>
-        <a class="btn btn-outline-light" href="">J'aime</a>
-    </div>
+    <th:block th:each="recette : ${recettes}">
+        <div class="col-md-10 blogShort">
+            <h1 th:text="${recette.getTitle}"></h1>
+            <article><p th:text="${recette.getContent}">
+            </p></article>
+            <!-- <p> Recette proposée par : <p th:text="${recette.user.pseudo}"></p> </p> -->
+            <button class="btn btn-outline-dark"  th:attr="onclick=|like('${recette.getId}')|">J'aime</button>
+        </div>
+    </th:block>
+
+    <script>
+        function like(id) {
+            fetch(
+                "/like",
+                {
+                    headers : {
+                        "Content-Type": "application/json",
+                        "Accept" : "application/json",
+
+                    },
+                    method : "post",
+                    body : id
+
+                }
+            ).then((data) => {
+                console.log(data)
+            }).catch((error) =>{
+                console.log(error)
+            })
+        }
+    </script>
 
 </div>
 </body>
