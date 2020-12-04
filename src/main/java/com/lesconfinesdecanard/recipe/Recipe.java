@@ -17,6 +17,15 @@ public class Recipe {
 
     private Integer id;
     private Integer userId;
+    private String recipe_creator;
+
+    public String getRecipe_creator() {
+        return recipe_creator;
+    }
+
+    public void setRecipe_creator(String recipe_creator) {
+        this.recipe_creator = recipe_creator;
+    }
 
     @Override
     public String toString() {

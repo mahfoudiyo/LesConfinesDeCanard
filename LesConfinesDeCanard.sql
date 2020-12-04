@@ -42,7 +42,8 @@ CREATE TABLE `recipe` (
   `title` varchar(30) NOT NULL,
   `content` varchar(200) NOT NULL,
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `recipe_creator` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -54,7 +55,7 @@ CREATE TABLE `recipe` (
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `pseudo` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

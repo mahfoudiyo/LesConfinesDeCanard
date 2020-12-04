@@ -10,6 +10,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.xml.bind.DatatypeConverter;
+
+
 
 import javax.servlet.http.HttpSession;
 
@@ -35,15 +40,19 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String PostRegister (@ModelAttribute User user, HttpSession session) {
+    public String PostRegister (@ModelAttribute User user, HttpSession session) throws NoSuchAlgorithmException {
+        /* PASSWORD ENCRYPTION : MD5 */
+        user.setPassword(getMd5(user.getPassword()));
+        /* END PASSWORD ENCRYPTION*/
         userRepository.save(user);
         session.setAttribute("user", user);
         return "connexion.html";
     }
 
     @PostMapping("/connexion")
-    public String PostConnexion (@ModelAttribute User user, HttpSession session) {
-        User newUser = userRepository.findByPseudoAndPassword(user.getPseudo(), user.getPassword());
+    public String PostConnexion (@ModelAttribute User user, HttpSession session) throws NoSuchAlgorithmException {
+        String passHash = getMd5(user.getPassword());
+        User newUser = userRepository.findByPseudoAndPassword(user.getPseudo(), passHash);
         if (newUser == null) return "connexion.html";
         session.setAttribute("user", newUser);
         return "redirect:/app";
@@ -61,6 +70,13 @@ public class UserController {
         return "profil.html";
     }
 
+    public String getMd5(String password) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        return hash;
+    }
 
 
 

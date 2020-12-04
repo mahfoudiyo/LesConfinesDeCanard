@@ -36,6 +36,7 @@ public class RecipeController {
 
         User user = (User) session.getAttribute("user");
         recette.setUserId(user.getId());
+        recette.setRecipe_creator(user.getPseudo());
         recipeRepository.save(recette);
         return("redirect:/app");
     }
