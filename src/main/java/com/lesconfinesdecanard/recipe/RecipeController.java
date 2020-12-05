@@ -71,10 +71,9 @@ public class RecipeController {
     }
 
     @PostMapping("/modifierRecette/{id}")
-    public String modifierRecette(@RequestBody String recette, @PathVariable String id){
-        String contentStr = recette.replace("content=","");//replaces all occurrences of "is" to "was"
+    public String modifierRecette(@RequestParam("content") String content, @PathVariable String id){
         Recipe rec = recipeRepository.findById(Integer.parseInt(id));
-        rec.setContent(contentStr);
+        rec.setContent(content);
         recipeRepository.save(rec);
         return("redirect:/profil");
     }

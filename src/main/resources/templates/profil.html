@@ -7,6 +7,7 @@
     <style>
         li {padding: 5px ;}
         button {text-align: center;}
+        input {width : 40% }
     </style>
 </head>
 
@@ -49,7 +50,7 @@
             <form method="post" th:action="${'/modifierRecette/' + recette.getId}">
                 <h1 th:text="${recette.getTitle}"></h1>
                 <article>
-                    <input th:value="${recette.getContent}"  name="content"/>
+                    <input type="textarea" th:value="${recette.getContent}" name="content"/>
                 </article>
                 <a class="btn btn-outline-dark" th:href="${'/delete_recette/' + recette.getId}">Supprimer</a>
                 <button class="btn btn-outline-dark"> Valider </button>
