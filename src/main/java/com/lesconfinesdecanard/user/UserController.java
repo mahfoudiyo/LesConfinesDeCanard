@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
 import javax.xml.bind.DatatypeConverter;
 
 
@@ -36,24 +38,42 @@ public class UserController {
     public String GetConnexion (Model model,HttpSession session) {
         session.removeAttribute("user");
         model.addAttribute ("user", new User ());
+        model.addAttribute ("errors", session.getAttribute("errors"));
+        session.removeAttribute("errors");
         return "connexion.html";
     }
 
     @PostMapping("/register")
     public String PostRegister (@ModelAttribute User user, HttpSession session) throws NoSuchAlgorithmException {
         /* PASSWORD ENCRYPTION : MD5 */
+        if (userRepository.findByPseudo(user.getPseudo()) != null) {
+            session.setAttribute("errors", Arrays.asList("Ce pseudo n\'est pas disponible"));
+            return "redirect:/connexion";
+        }
+        if (user.getPassword().length() < 8) {
+            session.setAttribute("errors", Arrays.asList("Le mot de passe doit faire au moins 8 caractères"));
+            return "redirect:/connexion";
+        }
+        if (user.getPseudo().length() < 3) {
+            session.setAttribute("errors", Arrays.asList("Le pseudo doit faire au moins 3 caractères"));
+            return "redirect:/connexion";
+        }
+
         user.setPassword(getMd5(user.getPassword()));
         /* END PASSWORD ENCRYPTION*/
         userRepository.save(user);
         session.setAttribute("user", user);
-        return "connexion.html";
+        return "redirect:/app";
     }
 
     @PostMapping("/connexion")
     public String PostConnexion (@ModelAttribute User user, HttpSession session) throws NoSuchAlgorithmException {
         String passHash = getMd5(user.getPassword());
         User newUser = userRepository.findByPseudoAndPassword(user.getPseudo(), passHash);
-        if (newUser == null) return "connexion.html";
+        if (newUser == null) {
+            session.setAttribute ("errors", Arrays.asList("Pseudo ou mot de passe inconnu"));
+            return "redirect:/connexion";
+        }
         session.setAttribute("user", newUser);
         return "redirect:/app";
     }

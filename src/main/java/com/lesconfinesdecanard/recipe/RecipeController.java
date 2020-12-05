@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 @Controller
 public class RecipeController {
@@ -26,6 +27,8 @@ public class RecipeController {
         if(session.getAttribute("user") == null){
             return("redirect:connexion");
         }
+        model.addAttribute("errors", session.getAttribute("errors"));
+        session.removeAttribute("errors");
         Recipe recette = new Recipe();
         model.addAttribute("recette", recette);
         return "nouvelleRecette.html";
@@ -34,6 +37,14 @@ public class RecipeController {
     @PostMapping("/store_recette")
     public String saveRecette(@ModelAttribute Recipe recette, HttpSession session){
 
+        if (recette.getTitle().trim() == "") {
+            session.setAttribute("errors", Arrays.asList("Veuillez ajouter un titre a votre recette"));
+            return "redirect:/create_recette";
+        }
+        if (recette.getContent().trim() == "") {
+            session.setAttribute("errors", Arrays.asList("Veuillez ajouter un contenu a votre recette"));
+            return "redirect:/create_recette";
+        }
         User user = (User) session.getAttribute("user");
         recette.setUserId(user.getId());
         recette.setRecipe_creator(user.getPseudo());
